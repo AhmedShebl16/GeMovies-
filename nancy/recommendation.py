@@ -4,7 +4,8 @@ from django.conf import settings
 import os
 from .models import Movie
 import pandas as pd
-from .nlp_utils import normalize_string  # Import the normalization function
+from .nlp_utils import normalize_string
+import random
 
 # Initialize a dictionary to hold models
 MODELS = {}
@@ -33,6 +34,7 @@ load_models()
 def generate_recommendations(parsed_query):
     """
     Generates a list of recommended movies based on the parsed query.
+    Introduces randomness to provide varied recommendations.
     """
     recommendations = set()
 
@@ -52,31 +54,46 @@ def generate_recommendations(parsed_query):
                 for i, score in sim_scores:
                     recommendations.add(df_movies.iloc[i]['title'])
 
-    # Recommend based on genres
+    # Recommend based on genres with randomness
     genres = parsed_query.get('genres', [])
     if genres and 'df_movies' in MODELS:
         df_movies = MODELS['df_movies']
         for genre in genres:
             genre_recs = df_movies[df_movies['genres'].str.contains(genre, case=False, na=False)]['title'].tolist()
-            recommendations.update(genre_recs)
+            if genre_recs:
+                # Shuffle the list to introduce randomness
+                random.shuffle(genre_recs)
+                # Select a subset (e.g., first 10 after shuffling)
+                selected_genre_recs = genre_recs[:10]
+                recommendations.update(selected_genre_recs)
 
-    # Recommend based on actors
+    # Recommend based on actors with randomness
     actors = parsed_query.get('actors', [])
     if actors and 'df_movies' in MODELS:
         df_movies = MODELS['df_movies']
         for actor in actors:
             actor_recs = df_movies[df_movies['actors'].str.contains(actor, case=False, na=False)]['title'].tolist()
-            recommendations.update(actor_recs)
+            if actor_recs:
+                # Shuffle the list to introduce randomness
+                random.shuffle(actor_recs)
+                # Select a subset (e.g., first 10 after shuffling)
+                selected_actor_recs = actor_recs[:10]
+                recommendations.update(selected_actor_recs)
 
-    # Recommend based on directors
+    # Recommend based on directors with randomness
     directors = parsed_query.get('directors', [])
     if directors and 'df_movies' in MODELS:
         df_movies = MODELS['df_movies']
         for director in directors:
             director_recs = df_movies[df_movies['directors'].str.contains(director, case=False, na=False)]['title'].tolist()
-            recommendations.update(director_recs)
+            if director_recs:
+                # Shuffle the list to introduce randomness
+                random.shuffle(director_recs)
+                # Select a subset (e.g., first 10 after shuffling)
+                selected_director_recs = director_recs[:10]
+                recommendations.update(selected_director_recs)
 
-    # Remove original specific movies from recommendations
+
     for movie in specific_movies:
         recommendations.discard(movie)
 
