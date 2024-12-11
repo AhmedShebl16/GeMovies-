@@ -27,7 +27,7 @@ dcos_patterns = [
 apps_patterns = [
     path('api/accounts/', include('accounts.api.urls'), name='accounts'),
     path('api/profiles/', include('profiles.api.urls'), name='profiles'),  # Corrected path
-    path('api/info/', include('info.api.urls'), name='info'),
+    path('api/info/', include('info.urls'), name='info'),
     path('api/nancy/', include('nancy.urls'), name='nancy'),
     path('api/stats/', include('stats.api.urls'), name='stats'),
 ]

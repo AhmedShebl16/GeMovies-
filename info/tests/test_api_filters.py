@@ -3,8 +3,8 @@ from datetime import timedelta
 from django.test import TestCase
 from django.utils.timezone import now
 
-from ..api.filters import (FAQsFilter, AboutUsFilter, TermsOfServiceFilter, CookiePolicyFilter, PrivacyPolicyFilter,
-                           TeamMemberFilter, NewsFilter, AwardFilter, PartnerFilter)
+from info.filters import (FAQsFilter, AboutUsFilter, TermsOfServiceFilter, CookiePolicyFilter, PrivacyPolicyFilter,
+                          TeamMemberFilter, NewsFilter, AwardFilter, PartnerFilter)
 from ..factories import (FAQsFactory, AboutUsFactory, TermsOfServiceFactory, CookiePolicyFactory, PrivacyPolicyFactory,
                          TeamMemberFactory, NewsFactory, AwardFactory, PartnerFactory)
 from . import InfoTestCaseHelperMixin
